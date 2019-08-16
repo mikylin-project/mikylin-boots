@@ -1,0 +1,29 @@
+server:
+
+  # 配置 Tomcat 相关的参数
+  tomcat:
+    # 最大线程数
+    max-threads: 2
+    # 最大连接数，默认 200
+    max-connections: 10
+    # encode
+    uri-encoding: UTF-8
+
+# spring 相关配置
+spring:
+
+  # thymeleaf 相关配置
+  # 不做前后端分离的情况下会用得到
+  thymeleaf:
+    # 页面类型
+    mode: HTML5
+    # 路径，默认 classpath:/templates/
+    prefix: classpath:static/
+    # 设置后缀
+    suffix: .html
+    # 编码格式
+    encoding: UTF-8
+
+  # 配置使用的 application-xxx.yml
+  profiles:
+    active: local

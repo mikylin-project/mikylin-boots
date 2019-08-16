@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>springboot-thymeleaf demo</title>
+</head>
+
+<body>
+<!-- 在 html 中获取到 Thymeleaf 中的值 -->
+<p th:text="'hello, ' + ${name} + '!'" />
+</body>
+</html>
+
+<!-- 导入在线的 jquery -->
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+
+<script type="text/javascript">
+
+    $(function(){
+
+        // 在 js 中获取到 Thymeleaf 中的值
+        var origin_url = "[[${name}]]";
+        console.log(origin_url);
+
+        /*window.location.href = origin_url;*/
+    });
+
+
+</script>
