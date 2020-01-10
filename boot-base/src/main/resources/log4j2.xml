@@ -149,17 +149,7 @@
 
     <!--然后定义logger，只有定义了logger并引入的appender，appender才会生效 -->
     <Loggers>
-        <!--<Logger name="org.j2.express.route.analysis.common.PerformanceMonitoring" level="trace"
-                additivity="false">
-            <Appender-Ref ref="AsyncTrace" />
-        </Logger>
-        <Logger name="org.j2.express.route.analysis" level="debug"
-                additivity="false">
-            <Appender-Ref ref="Console" />
-            <Appender-Ref ref="AsyncInfo" />
-            <Appender-Ref ref="AsyncError" />
-            <Appender-Ref ref="AsyncDebug" />
-        </Logger>-->
+
         <Root level="INFO">
             <!-- 这儿为trace表示什么都可以打印出来了,其他几个级别分别为：TRACE、DEBUG、INFO、WARN、ERROR和FATAL -->
             <Appender-Ref ref="Console"/>
@@ -167,6 +157,9 @@
             <Appender-Ref ref="AsyncInfo"/>
             <Appender-Ref ref="AsyncDebug"/>
         </Root>
+
+        <!-- 此处剔除 kafka 监听类的日志打印 -->
+        <Logger name="org.springframework.kafka.listener.KafkaMessageListenerContainer" level="ERROR"/>
     </Loggers>
 
 </Configuration>
