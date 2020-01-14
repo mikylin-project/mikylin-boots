@@ -38,3 +38,10 @@ server:
 # 配置使用的 log4j2 文件
 logging:
   config: classpath:log4j2.xml
+
+
+# mybatis 配置
+mybatis:
+  configuration:
+    # 下划线命名法自动转驼峰命名
+    map-underscore-to-camel-case: true
