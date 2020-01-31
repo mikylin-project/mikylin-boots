@@ -1,0 +1,11 @@
+spring:
+
+  # 配置使用的 application-xxx.yml
+  profiles:
+    active: provider
+
+# 配置使用的 log4j2 文件
+logging:
+  config: classpath:log4j2.xml
+  level:
+    root: debug

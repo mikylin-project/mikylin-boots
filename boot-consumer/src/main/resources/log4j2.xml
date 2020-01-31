@@ -158,6 +158,8 @@
             <Appender-Ref ref="AsyncDebug"/>
         </Root>
 
+        <!-- 此处剔除 kafka 监听类的日志打印 -->
+        <Logger name="org.springframework.kafka.listener.KafkaMessageListenerContainer" level="ERROR"/>
     </Loggers>
 
 </Configuration>

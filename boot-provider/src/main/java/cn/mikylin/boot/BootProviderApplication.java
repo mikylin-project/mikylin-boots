@@ -2,14 +2,14 @@ package cn.mikylin.boot;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.kafka.annotation.EnableKafka;
 
-@EnableTransactionManagement // 开启事务
 @SpringBootApplication
-public class BootBaseApplication {
+@EnableKafka
+public class BootProviderApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(BootBaseApplication.class, args);
+        SpringApplication.run(BootProviderApplication.class, args);
     }
 
 }

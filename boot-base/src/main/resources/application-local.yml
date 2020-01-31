@@ -2,43 +2,104 @@ server:
   port: 8080
 
 spring:
-  datasource:
-    # 主数据库
-    master-url: jdbc:mysql://localhost:3306/test?useSSL=false&characterEncoding=utf-8&rewriteBatchedStatements=true&serverTimezone=Asia/Shanghai
-    master-username: root
-    master-password: root
 
-    # 从数据库
-    slaver-url: jdbc:mysql://localhost:3306/test1?useSSL=false&characterEncoding=utf-8&rewriteBatchedStatements=true&serverTimezone=Asia/Shanghai
-    slaver-username: root
-    slaver-password: root
+#  datasource:
+#    # 主数据库
+#    master-url: jdbc:mysql://localhost:3306/test?useSSL=false&characterEncoding=utf-8&rewriteBatchedStatements=true&serverTimezone=Asia/Shanghai
+#    master-username: root
+#    master-password: root
+#
+#    # 从数据库
+#    slaver-url: jdbc:mysql://localhost:3306/test1?useSSL=false&characterEncoding=utf-8&rewriteBatchedStatements=true&serverTimezone=Asia/Shanghai
+#    slaver-username: root
+#    slaver-password: root
+#
+#    # 数据库驱动
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    # 连接池
+#    type: com.alibaba.druid.pool.DruidDataSource
+#    # 连接池初始化大小
+#    initial-size: 10
+#    # 连接池最小数
+#    min-idle: 10
+#    # 连接池最大数
+#    max-active: 30
+#    # 配置获取连接等待超时的时间
+#    max-wait: 60000
+#    # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+#    time-between-eviction-runs-millis: 60000
+#    # 配置一个连接在池中最小生存的时间，单位是毫秒
+#    min-evictable-idle-time-millis: 30000
+#    validation-query: select 'x'
+#    test-while-idle: true
+#    test-on-borrow: false
+#    test-on-return: false
+#    # 打开PSCache，并且指定每个连接上PSCache的大小
+#    pool-prepared-statements: true
+#    max-pool-prepared-statement-per-connection-size: 20
+#    # 配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
+#    filters: stat,wall,slf4j
+#    connection-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
 
-    # 数据库驱动
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    # 连接池
-    type: com.alibaba.druid.pool.DruidDataSource
-    # 连接池初始化大小
-    initial-size: 10
-    # 连接池最小数
-    min-idle: 10
-    # 连接池最大数
-    max-active: 30
-    # 配置获取连接等待超时的时间
-    max-wait: 60000
-    # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
-    time-between-eviction-runs-millis: 60000
-    # 配置一个连接在池中最小生存的时间，单位是毫秒
-    min-evictable-idle-time-millis: 30000
-    validation-query: select 'x'
-    test-while-idle: true
-    test-on-borrow: false
-    test-on-return: false
-    # 打开PSCache，并且指定每个连接上PSCache的大小
-    pool-prepared-statements: true
-    max-pool-prepared-statement-per-connection-size: 20
-    # 配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
-    filters: stat,wall,slf4j
-    connection-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+  shardingsphere:
+    datasource:
+      # 配置启用的数据源
+      names: ds00,ds01
+      ds00:
+        # druid 连接池
+        type: com.alibaba.druid.pool.DruidDataSource
+        # 20200131 sharding-jdbc 4.0.0-RC3 暂时只支持 mysql5 的版本
+        # driver-class-name: com.mysql.cj.jdbc.Driver
+        driver-class-name: com.mysql.jdbc.Driver
+        url: jdbc:mysql://aliyun-ecs:3306/test1?useSSL=false&characterEncoding=utf-8&rewriteBatchedStatements=true&treatTinyAsBoolean=false&serverTimezone=Asia/Shanghai
+        # 用户名 / 密码
+        username: root
+        password: root
+        # 连接池最大值 / 最小值
+        max-pool-size: 50
+        min-pool-size: 10
+        min-idle: 10
+        max-active: 30
+        # 配置获取连接等待超时的时间
+        max-wait: 60000
+      ds01:
+        type: com.alibaba.druid.pool.DruidDataSource
+        driver-class-name: com.mysql.jdbc.Driver
+        url: jdbc:mysql://aliyun-ecs:3306/test2?useSSL=false&characterEncoding=utf-8&rewriteBatchedStatements=true&treatTinyAsBoolean=false&serverTimezone=Asia/Shanghai
+        username: root
+        password: root
+        initial-size: 10
+        min-idle: 10
+        max-active: 30
+        max-wait: 60000
 
+    sharding:
+      # 没有设置的表，使用的默认数据源
+      default-data-source-name: ds00
 
+      # 对特定的表进行多数据源配置
+      tables:
+        # 设定特别的分库分表数据表 user
+        user:
+          # 设定 user 所有的库和表
+          # actual-data-nodes: ds0$->{0..1}.user_${0..9}
+          # actual-data-nodes: ds00.user,ds01.user
+          actual-data-nodes: ds0$->{0..1}.user
+          # 分库策略
+          database-strategy.inline:
+            # 分库的核心字段
+            sharding-column: user_id
+            # 分库的策略
+            algorithm-expression: ds0$->{user_id % 2}
+          # 分表策略
+          table-strategy.inline:
+            # 分表的核心字段
+            sharding-column: user_id
+            # 分表的策略
+            algorithm-expression: user
 
+    props:
+      # 是否开启 SQL 显示，默认值: false
+      sql.show: true
+      # 工作线程数量，默认值: cpu 核数
+      executor.size: 1

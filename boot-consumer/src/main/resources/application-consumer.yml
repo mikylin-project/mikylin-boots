@@ -1,0 +1,68 @@
+server:
+  port: 8081
+
+spring:
+
+  kafka:
+
+    ## 消费者配置，如果本实例只是生产者，可以不配置该部分
+    consumer:
+      # client id，随意配置，不可重复
+      client-id: boot-consumer
+      # 消费者分组 id，同一组别的不同消费者共同消费一份数据
+      group-id: consumer-group-1
+      # kafka 服务地址，pi + 端口
+      bootstrap-servers: aliyun-ecs:9092
+      # 用于反序列化的工具类
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      # 自动更新 offset
+      enable-auto-commit: true
+      # 如果 enable-auto-commit 设置为 true，则每隔一段时间提交一次 offset
+      # 时间单位为毫秒，默认值 5000 (5s)
+      auto-commit-interval: 1000
+      # offset 消费指针
+      # earliest 代表从头开始消费，lastest 代表从新产生的部分开始消费
+      auto-offset-reset: earliest
+
+
+dubbo:
+  # 扫描的包路径
+  scan:
+    base-packages: cn.mikylin
+
+  version: 1.0.0
+
+  # 服务配置
+  application:
+    # 设置 dubbo 服务的名称
+    name: DUBBO_SERVER
+    # 输出日志
+    logger: slf4j
+
+  # 注册中心相关配置
+  registry:
+    # 配置 zookeeper 集群的地址
+    address: zookeeper://aliyun-ecs:2101
+    # 服务配置组别，不同组别下的服务不会相互调用，可以不做配置，即为不隔离
+    group: SERVER_TEST
+    # 注册中心超时时间，默认 5000，单位毫秒
+    timeout: 5000
+    # 在启动的时候是否先心跳检查注册中心是否存活，不存在就报错
+    check: true
+    # 注册中心用户名
+    # username: 123
+    # 注册中心密码
+    # password: 123
+
+  # 服务消费者配置，如果该服务是一个提供者，可以不配置此部分
+  consumer:
+    # 在启动的时候是否先心跳检查服务提供者是否存活，不存在就报错
+    check: false
+    # 调用的超时时间，默认 1000，单位毫秒
+    timeout: 1000
+    # 重试次数，默认 2 次
+    retries: 2
+    # 对多个服务提供者的调用负载均衡策略
+    # 可选： random(随机) / roundrobin(轮询) / leastactive(最少调用)
+    loadbalance: random

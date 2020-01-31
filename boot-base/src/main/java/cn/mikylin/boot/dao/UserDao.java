@@ -1,6 +1,7 @@
-package cn.mikylin.boot.dao.master;
+package cn.mikylin.boot.dao;
 
 import cn.mikylin.boot.entity.UserEntity;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -9,8 +10,9 @@ import org.apache.ibatis.annotations.Select;
 public interface UserDao {
 
     /*
+        drop table if exists user;
         create table user (
-            `user_id` bigint(20) not null AUTO_INCREMENT comment '用户 id',
+            `user_id` bigint(20) not null comment '用户 id', -- AUTO_INCREMENT
             `user_name` varchar(100) not null comment '用户名',
             `password` varchar(100) not null comment '密码',
             `age` int(3) default null comment '年龄',
@@ -28,5 +30,33 @@ public interface UserDao {
     @Select({"<script>",
             "select * from user a where user_id = #{user_id} limit 1 ",
             "</script>"})
-    UserEntity selectById(@Param("user_id")Long userId);
+    UserEntity selectById(@Param("user_id") Long userId);
+
+
+    @Select({"<script>",
+            "select count(*) from user ",
+            "</script>"})
+    Long selectCount();
+
+
+    @Insert({"<script>",
+            "insert into user ( ",
+            "  `user_id`, ",
+            "  `user_name`, ",
+            "  `password`, ",
+            "  `age`, ",
+            "  `sex`, ",
+            "  `notes`, ",
+            "  `status` ",
+            ") values ( ",
+            "  #{userId}, ",
+            "  #{userName}, ",
+            "  #{password}, ",
+            "  #{age}, ",
+            "  #{sex}, ",
+            "  #{notes}, ",
+            "  #{status} ",
+            ")",
+            "</script>"})
+    void insert(UserEntity e);
 }

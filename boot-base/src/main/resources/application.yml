@@ -22,8 +22,7 @@ spring:
 
 
   # 配置使用的 application-xxx.yml
-  profiles:
-    active: local
+  profiles.active: local
 
 server:
   # 配置 Tomcat 相关的参数
@@ -38,6 +37,7 @@ server:
 # 配置使用的 log4j2 文件
 logging:
   config: classpath:log4j2.xml
+  level.root: debug
 
 
 # mybatis 配置
@@ -45,3 +45,5 @@ mybatis:
   configuration:
     # 下划线命名法自动转驼峰命名
     map-underscore-to-camel-case: true
+  # 扫描的包路径
+  type-aliases-package: cn.mikylin.boot.dao

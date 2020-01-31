@@ -1,0 +1,68 @@
+server:
+  port: 8080
+
+spring:
+
+  kafka:
+    ## 生产者配置，如果本实例只是消费者，可以不配置该部分
+    producer:
+      # client id，随意配置，不可重复
+      client-id: boot-producer
+      # kafka 服务地址，pi + 端口
+      bootstrap-servers: aliyun-ecs:9092
+      # 用于序列化的工具类
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      # 消息发送失败情况下的重试次数
+      retries: 1
+      # 批量上传的 buffer size，可以是消息数量，也可以是内存量
+      batch-size: 10000
+      buffer-memory: 300000
+      # 等待副本同步之后才确认消息发送成功，可选的值有 0,1,-1,all 等
+      # 设置为 0 的意思是不等待任何副本同步完成就直接返回
+      # 设置为 1 的意思是只等待 leader 同步完成
+      # all 的意思是全部同步完才确认，但是速度会比较慢
+      acks: 1
+
+
+dubbo:
+  # 扫描的包路径
+  scan:
+    base-packages: cn.mikylin
+
+  version: 1.0.0
+
+  # 服务配置
+  application:
+    # 设置 dubbo 服务的名称
+    name: DUBBO_SERVER
+    # 输出日志
+    logger: slf4j
+
+  # 注册中心相关配置
+  registry:
+    # 配置 zookeeper 集群的地址
+    address: zookeeper://aliyun-ecs:2101
+    # 服务配置组别，不同组别下的服务不会相互调用，可以不做配置，即为不隔离
+    group: SERVER_TEST
+    # 注册中心超时时间，默认 5000，单位毫秒
+    timeout: 5000
+    # 在启动的时候是否先心跳检查注册中心是否存活，不存在就报错
+    check: true
+    # 注册中心用户名
+    # username: 123
+    # 注册中心密码
+    # password: 123
+
+  # 服务提供者配置，如果该服务是一个消费者，可以不配置此部分
+  protocol:
+    # 传输协议
+    name: dubbo
+    # 服务提供的端口，dubbo 协议下默认 20880
+    port: 20880
+    # 序列化方式，dubbo 协议下默认为 hessian2
+    # 可选： hessian2 / java / json 等
+    serialization: hessian2
+    # 网络读写的缓冲区大小
+    buffer: 8192
+

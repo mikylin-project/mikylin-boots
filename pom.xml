@@ -10,6 +10,7 @@
 
     <modules>
         <module>boot-parent</module>
+        <module>boot-api</module>
     </modules>
 
 </project>
