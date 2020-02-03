@@ -42,8 +42,7 @@ logging:
 
 # mybatis 配置
 mybatis:
-  configuration:
-    # 下划线命名法自动转驼峰命名
-    map-underscore-to-camel-case: true
+  # 下划线命名法自动转驼峰命名
+  configuration.map-underscore-to-camel-case: true
   # 扫描的包路径
   type-aliases-package: cn.mikylin.boot.dao
