@@ -1,77 +1,136 @@
 server:
+  # 端口
   port: 8080
+  # http 协议头的大小
+  max-http-header-size: 8KB
+
+  # servlet 设置
+  servlet:
+    session:
+      # session 失效时常，默认 30min，-1 代表不过期
+      timeout: -1
+      # 是否持久化 session，持久化之后 session 不会因为服务的重启而丢失
+      persistent: false
+      # 如果设置为需要持久化，那么可以指定存储的目录
+      # store-dir: classpath:session
+
+#  # 配置 Tomcat 相关的参数
+#  tomcat:
+#    # 最大线程数
+#    max-threads: 200
+#    # 最大连接数，默认 200
+#    max-connections: 200
+#    # encode
+#    uri-encoding: UTF-8
+#    # 连接超时时间
+#    connection-timeout: 2m
+#    # 最大连接排队数
+#    accept-count: 200
+#    # 提交表单的最大大小
+#    max-http-form-post-size: 2MB
+
+  # 配置 Undertow 相关参数
+  undertow:
+    accesslog:
+      # 是否开启日志，默认 false
+      enabled: false
+      # 日志所在目录
+      dir: logs
+    # 编码格式
+    url-charset: utf-8
+    # http post 内容长度，-1 代表不做限制
+    max-http-post-size: -1B
+    # io 多路复用线程，执行非阻塞任务
+    io-threads: 4
+    # 阻塞任务线程池
+    worker-threads: 500
+    # buffer 缓冲区大小
+    buffer-size: 1024
+    # 是否使用堆外内存
+    direct-buffers: false
+    # 超时时间
+    no-request-timeout: 2m
+
+
+  # 是否支持 http2
+  http2.enabled: false
+
+
 
 spring:
 
-#  datasource:
-#    # 主数据库
-#    master-url: jdbc:mysql://localhost:3306/test?useSSL=false&characterEncoding=utf-8&rewriteBatchedStatements=true&serverTimezone=Asia/Shanghai
-#    master-username: root
-#    master-password: root
-#
-#    # 从数据库
-#    slaver-url: jdbc:mysql://localhost:3306/test1?useSSL=false&characterEncoding=utf-8&rewriteBatchedStatements=true&serverTimezone=Asia/Shanghai
-#    slaver-username: root
-#    slaver-password: root
-#
-#    # 数据库驱动
-#    driver-class-name: com.mysql.cj.jdbc.Driver
-#    # 连接池
-#    type: com.alibaba.druid.pool.DruidDataSource
-#    # 连接池初始化大小
-#    initial-size: 10
-#    # 连接池最小数
-#    min-idle: 10
-#    # 连接池最大数
-#    max-active: 30
-#    # 配置获取连接等待超时的时间
-#    max-wait: 60000
-#    # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
-#    time-between-eviction-runs-millis: 60000
-#    # 配置一个连接在池中最小生存的时间，单位是毫秒
-#    min-evictable-idle-time-millis: 30000
-#    validation-query: select 'x'
-#    test-while-idle: true
-#    test-on-borrow: false
-#    test-on-return: false
-#    # 打开PSCache，并且指定每个连接上PSCache的大小
-#    pool-prepared-statements: true
-#    max-pool-prepared-statement-per-connection-size: 20
-#    # 配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
-#    filters: stat,wall,slf4j
-#    connection-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+  datasource:
+    # 主数据库
+    master-url: jdbc:mysql://aliyun-ecs:3306/test1?useSSL=false&characterEncoding=utf-8&rewriteBatchedStatements=true&treatTinyAsBoolean=false&serverTimezone=Asia/Shanghai
+    master-username: root
+    master-password: root
+
+    # 从数据库
+    slaver-url: jdbc:mysql://aliyun-ecs:3306/test2?useSSL=false&characterEncoding=utf-8&rewriteBatchedStatements=true&treatTinyAsBoolean=false&serverTimezone=Asia/Shanghai
+    slaver-username: root
+    slaver-password: root
+
+    # 数据库驱动
+    driver-class-name: com.mysql.jdbc.Driver
+    # 连接池初始化大小
+    initial-size: 10
+    # 连接池最小数
+    min-idle: 10
+    # 连接池最大数
+    max-active: 30
+    # 配置获取连接等待超时的时间
+    max-wait: 60000
+    # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+    time-between-eviction-runs-millis: 60000
+    # 配置一个连接在池中最小生存的时间，单位是毫秒
+    min-evictable-idle-time-millis: 30000
+    validation-query: select 'x'
+    test-while-idle: true
+    test-on-borrow: false
+    test-on-return: false
+    # 打开PSCache，并且指定每个连接上PSCache的大小
+    pool-prepared-statements: true
+    max-pool-prepared-statement-per-connection-size: 20
+    # 配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
+    filters: stat,wall,slf4j
+    connection-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
 
   shardingsphere:
     datasource:
       # 配置启用的数据源
       names: ds00,ds01
       ds00:
-        # druid 连接池
-        type: com.alibaba.druid.pool.DruidDataSource
-        # 20200131 sharding-jdbc 4.0.0-RC3 暂时只支持 mysql5 的版本
+        # 连接池
+        type: com.zaxxer.hikari.HikariDataSource
+        # sharding-jdbc 4.0.0-RC3 暂时只支持 mysql5 的版本
         # driver-class-name: com.mysql.cj.jdbc.Driver
         driver-class-name: com.mysql.jdbc.Driver
-        url: jdbc:mysql://aliyun-ecs:3306/test1?useSSL=false&characterEncoding=utf-8&rewriteBatchedStatements=true&treatTinyAsBoolean=false&serverTimezone=Asia/Shanghai
+        jdbc-url: jdbc:mysql://aliyun-ecs:3306/test1?useSSL=false&characterEncoding=utf-8&rewriteBatchedStatements=true&treatTinyAsBoolean=false&serverTimezone=Asia/Shanghai
         # 用户名 / 密码
         username: root
         password: root
-        # 连接池最大值 / 最小值
-        max-pool-size: 50
-        min-pool-size: 10
-        min-idle: 10
-        max-active: 30
-        # 配置获取连接等待超时的时间
-        max-wait: 60000
+        # 超时时间，单位毫秒
+        connection-timeout: 2000
+        # 连接池线程空置之后的存续时间
+        max-lifetime: 1800000
+        # 维护的最小连接数
+        minimum-idle: 100
+        # 最大连接数
+        maximum-pool-size: 500
+        # 线程名称
+        pool-name: hikaricp-pool-1-
+
       ds01:
-        type: com.alibaba.druid.pool.DruidDataSource
+        type: com.zaxxer.hikari.HikariDataSource
         driver-class-name: com.mysql.jdbc.Driver
-        url: jdbc:mysql://aliyun-ecs:3306/test2?useSSL=false&characterEncoding=utf-8&rewriteBatchedStatements=true&treatTinyAsBoolean=false&serverTimezone=Asia/Shanghai
+        jdbc-url: jdbc:mysql://aliyun-ecs:3306/test2?useSSL=false&characterEncoding=utf-8&rewriteBatchedStatements=true&treatTinyAsBoolean=false&serverTimezone=Asia/Shanghai
         username: root
         password: root
-        initial-size: 10
-        min-idle: 10
-        max-active: 30
-        max-wait: 60000
+        connection-timeout: 2000
+        maxLifetime: 1800000
+        1minimum-idle: 100
+        maximum-pool-size: 500
+        pool-name: hikaricp-pool-2-
 
     sharding:
       # 没有设置的表，使用的默认数据源

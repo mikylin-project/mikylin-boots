@@ -1,4 +1,4 @@
-package cn.mikylin.boot.dao;
+package cn.mikylin.boot.dao.slaver;
 
 import cn.mikylin.boot.entity.UserEntity;
 import org.apache.ibatis.annotations.Insert;
@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 @Mapper
-public interface UserDao {
+public interface SlaverUserDao {
 
     /*
         drop table if exists user;

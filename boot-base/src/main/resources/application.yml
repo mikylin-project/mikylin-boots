@@ -1,5 +1,29 @@
 spring:
 
+  # 日期格式，解决日期传输到前端变成时间戳的问题
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+
+  # Spring 网络配置
+  http:
+    encoding:
+      # 编码格式
+      charset: UTF-8
+      enabled: true
+      force: true
+
+  # servlet 配置
+  servlet:
+    # 文件上传配置
+    multipart:
+      # 是否支持文件上传
+      enabled: true
+      # 上传的文件的最大值
+      max-file-size: 100MB
+      # request 的最大值
+      max-request-size: 100MB
+
   # Thymeleaf 相关配置
   # 不做前后端分离的情况下会用得到
   thymeleaf:
@@ -12,27 +36,10 @@ spring:
     # 编码格式
     encoding: UTF-8
 
-  # Spring 网络配置
-  http:
-    encoding:
-      # 编码格式
-      charset: UTF-8
-      enabled: true
-      force: true
-
-
   # 配置使用的 application-xxx.yml
   profiles.active: local
 
-server:
-  # 配置 Tomcat 相关的参数
-  tomcat:
-    # 最大线程数
-    max-threads: 2
-    # 最大连接数，默认 200
-    max-connections: 10
-    # encode
-    uri-encoding: UTF-8
+
 
 # 配置使用的 log4j2 文件
 logging:
@@ -44,5 +51,7 @@ logging:
 mybatis:
   # 下划线命名法自动转驼峰命名
   configuration.map-underscore-to-camel-case: true
-  # 扫描的包路径
-  type-aliases-package: cn.mikylin.boot.dao
+  # 扫描的 mybatis mapeer 路径
+  mapper-locations: classpath:/mapper/*.xml
+
+

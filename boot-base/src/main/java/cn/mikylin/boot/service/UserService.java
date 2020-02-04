@@ -1,6 +1,8 @@
 package cn.mikylin.boot.service;
 
-import cn.mikylin.boot.dao.UserDao;
+import cn.mikylin.boot.dao.master.MasterUserDao;
+import cn.mikylin.boot.dao.shardingsphere.ShardingUserDao;
+import cn.mikylin.boot.dao.slaver.SlaverUserDao;
 import cn.mikylin.boot.entity.UserEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shardingsphere.transaction.annotation.ShardingTransactionType;
@@ -21,18 +23,26 @@ import java.util.List;
 public class UserService {
 
     @Resource
-    UserDao userDao;
+    ShardingUserDao shardingUserDao;
+    @Resource
+    MasterUserDao masterUserDao;
+    @Resource
+    SlaverUserDao slaverUserDao;
 
     @ShardingTransactionType(TransactionType.XA) // 分布式事务使用 xa，本地单库事务使用 local
     @Transactional // sharding 的事务需要配合 transactional 注解使用
     public void saveUsers(List<UserEntity> us) {
 
         for(UserEntity u : us) {
-            userDao.insert(u);
+            shardingUserDao.insert(u);
         }
     }
 
     public Long findCount() {
-        return userDao.selectCount();
+        Long masterLong = masterUserDao.selectCount();
+        System.out.println(masterLong);
+        Long slaverLong = slaverUserDao.selectCount();
+        System.out.println(slaverLong);
+        return shardingUserDao.selectCount();
     }
 }
