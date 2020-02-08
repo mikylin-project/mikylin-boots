@@ -11,6 +11,11 @@
     <version>${boot.version}</version>
     <name>boot-base</name>
 
+
+    <!--
+        mvn dependency:tree
+        maven 命令，打印所有 jar 包的关联关系
+    -->
     <dependencies>
 
         <!-- spring boot mvc -->
