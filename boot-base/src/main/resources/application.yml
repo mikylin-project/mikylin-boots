@@ -54,4 +54,11 @@ mybatis:
   # 扫描的 mybatis mapeer 路径
   mapper-locations: classpath:/mapper/*.xml
 
+# page helper 配置
+pagehelper:
+  # 自动合理化参数，如果 page 或者 pageSize 小于零了就自动查询第一页
+  reasonable: true
+  # 配置数据库类型
+  helper-dialect: mysql
+
 

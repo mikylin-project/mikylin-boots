@@ -37,5 +37,9 @@ public class BaseBootTests {
         System.out.println(service.findCount());
     }
 
+    @Test
+    public void selectAll() {
+        service.findAll();
+    }
 
 }

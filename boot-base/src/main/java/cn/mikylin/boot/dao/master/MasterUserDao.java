@@ -6,6 +6,8 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
+import java.util.List;
+
 @Mapper
 public interface MasterUserDao {
 
@@ -37,6 +39,11 @@ public interface MasterUserDao {
             "select count(*) from user ",
             "</script>"})
     Long selectCount();
+
+    @Select({"<script>",
+            "select * from user a ",
+            "</script>"})
+    List<UserEntity> selectAll();
 
 
     @Insert({"<script>",

@@ -4,7 +4,7 @@
     <parent>
         <artifactId>boot-parent</artifactId>
         <groupId>cn.mikylin.boot</groupId>
-        <version>0.0.1</version>
+        <version>0.0.2</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>boot-base</artifactId>
@@ -37,24 +37,12 @@
 
 
         <!-- orm 相关 -->
+
         <!-- druid -->
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>druid</artifactId>
             <version>1.1.21</version>
-        </dependency>
-
-        <!-- spring mybatis -->
-        <dependency>
-            <groupId>org.mybatis.spring.boot</groupId>
-            <artifactId>mybatis-spring-boot-starter</artifactId>
-            <version>2.1.1</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
 
         <!-- spring redis -->
@@ -70,21 +58,15 @@
         </dependency>
 
         <!-- mysql -->
-<!--        <dependency>-->
-<!--            <groupId>mysql</groupId>-->
-<!--            <artifactId>mysql-connector-java</artifactId>-->
-<!--            <version>8.0.18</version>-->
-<!--        </dependency>-->
+
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.48</version>
         </dependency>
 
         <dependency>
             <groupId>org.apache.shardingsphere</groupId>
             <artifactId>sharding-jdbc-spring-boot-starter</artifactId>
-            <version>4.0.0-RC3</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.springframework.boot</groupId>
@@ -93,6 +75,24 @@
             </exclusions>
         </dependency>
 
+        <!-- 使用 maven 引入本地依赖 -->
+<!--        <dependency>-->
+<!--            <groupId>aa</groupId>-->
+<!--            <artifactId>aa</artifactId>-->
+<!--            <scope>system</scope>-->
+<!--            <systemPath>../../aa.jar</systemPath>-->
+<!--        </dependency>-->
+
+        <dependency>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper-spring-boot-starter</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
 
         <dependency>
             <groupId>cn.mikylin</groupId>
@@ -101,6 +101,27 @@
         </dependency>
 
     </dependencies>
+
+    <build>
+        <plugins>
+            <!-- 打jar包的时候排除掉所有资源文件 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.0.2</version>
+                <configuration>
+
+                    <!-- 打包的时候排除配置文件，从项目的根目录开始算 -->
+                    <!-- 对一般的 springboot 项目来说，就是 resource 目录 -->
+                    <excludes>
+                        <exclude>/*.txt</exclude>
+                        <!-- <exclude>/**/*.txt</exclude> -->
+                    </excludes>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
 
 
 </project>

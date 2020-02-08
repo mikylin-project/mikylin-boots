@@ -6,6 +6,8 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
+import java.util.List;
+
 @Mapper
 public interface ShardingUserDao {
 
@@ -59,4 +61,10 @@ public interface ShardingUserDao {
             ")",
             "</script>"})
     void insert(UserEntity e);
+
+
+    @Select({"<script>",
+            "select * from user a ",
+            "</script>"})
+    List<UserEntity> selectAll();
 }
