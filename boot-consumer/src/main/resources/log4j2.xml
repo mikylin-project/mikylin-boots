@@ -147,18 +147,21 @@
         </Async>
     </Appenders>
 
-    <!--然后定义logger，只有定义了logger并引入的appender，appender才会生效 -->
+    <!-- 定义 logger，只有定义了 logger 并引入的 appender，appender 才会生效 -->
     <Loggers>
 
+        <!-- 这儿为 trace 表示什么都可以打印出来了 -->
+        <!-- 其他几个级别分别为：TRACE、DEBUG、INFO、WARN、ERROR 和 FATAL -->
         <Root level="INFO">
-            <!-- 这儿为trace表示什么都可以打印出来了,其他几个级别分别为：TRACE、DEBUG、INFO、WARN、ERROR和FATAL -->
             <Appender-Ref ref="Console"/>
             <Appender-Ref ref="AsyncError"/>
             <Appender-Ref ref="AsyncInfo"/>
             <Appender-Ref ref="AsyncDebug"/>
         </Root>
 
-        <!-- 此处剔除 kafka 监听类的日志打印 -->
+        <!-- 此处剔除 Kafka 监听类的日志打印 -->
+        <!-- 设置只有 ERROR 级别的日志才会打印出来，屏蔽掉 INFO / DEBUG 等级别的日志 -->
+        <Logger name="org.apache.kafka.clients.FetchSessionHandler" level="ERROR"/>
         <Logger name="org.springframework.kafka.listener.KafkaMessageListenerContainer" level="ERROR"/>
     </Loggers>
 
