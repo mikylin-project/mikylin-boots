@@ -162,3 +162,20 @@ spring:
       sql.show: true
       # 工作线程数量，默认值: cpu 核数
       executor.size: 1
+
+
+  # redis 相关配置
+  redis:
+    host: localhost
+    database: 0
+    port: 6379
+    lettuce:
+      shutdown-timeout: 100ms
+      pool:
+        max-active: 8
+        min-idle: 0
+        max-wait: 100ms
+    sentinel:
+      nodes: localhost:6400,localhost:6401
+      master: mySentinelMaster
+
