@@ -46,6 +46,26 @@
             </exclusions>
         </dependency>
 
+        <!-- dubbo 接口限流器 sentinel -->
+        <dependency>
+            <groupId>com.alibaba.csp</groupId>
+            <artifactId>sentinel-apache-dubbo-adapter</artifactId>
+            <version>1.7.0</version>
+        </dependency>
+
+        <!-- sentinel 的控制台客户端 -->
+        <dependency>
+            <groupId>com.alibaba.csp</groupId>
+            <artifactId>sentinel-transport-simple-http</artifactId>
+            <version>1.7.0</version>
+        </dependency>
+        <!-- sentinel-transport-simple-http 的替代品，基于 netty 的客户端 -->
+        <!--        <dependency>-->
+        <!--            <groupId>com.alibaba.csp</groupId>-->
+        <!--            <artifactId>sentinel-transport-netty-http</artifactId>-->
+        <!--            <version>1.7.0</version>-->
+        <!--        </dependency>-->
+
         <!-- zookeeper -->
         <dependency>
             <groupId>org.apache.curator</groupId>
