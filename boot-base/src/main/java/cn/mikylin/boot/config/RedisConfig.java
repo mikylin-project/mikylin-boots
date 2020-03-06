@@ -21,8 +21,7 @@ import java.util.Set;
 @Configuration
 public class RedisConfig {
 
-    @Autowired
-    private RedisConnectionFactory factory;
+
 
 
 
@@ -60,6 +59,11 @@ public class RedisConfig {
 //        rs.setSentinels(set);
 //        return rs;
 //    }
+
+
+    @Autowired
+    private RedisConnectionFactory factory;
+
 
     @Bean
     @ConditionalOnMissingBean

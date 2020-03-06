@@ -183,10 +183,12 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <mainClass>org.springframework.boot.loader.JarLauncher</mainClass>
-                    <layout>JAR</layout>
-                </configuration>
+<!--                <configuration>-->
+                    <!-- 配置 start class -->
+                    <!-- 每一个实际上的 jar 包的启动类可能都不太一样，所以一般不做配置就好 -->
+<!--                    <mainClass>cn.mikylin.boot.BootBaseApplication</mainClass>-->
+<!--                    <layout>JAR</layout>-->
+<!--                </configuration>-->
             </plugin>
 
             <!-- 测试管理插件 打包的时候跳过 junit 相关方法 -->
