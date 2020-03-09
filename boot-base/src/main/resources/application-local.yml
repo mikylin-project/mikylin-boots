@@ -164,18 +164,38 @@ spring:
       executor.size: 1
 
 
-  # redis 相关配置
-  redis:
+
+
+
+# redis 相关配置
+redis:
+  redis-1:
     host: localhost
     database: 0
+    password: 123
     port: 6379
     lettuce:
       shutdown-timeout: 100ms
       pool:
         max-active: 8
-        min-idle: 0
-        max-wait: 100ms
-    sentinel:
-      nodes: localhost:6400,localhost:6401
-      master: mySentinelMaster
+        max-idle: 16
+        min-idle: 8
+        max-wait: 100
+  redis-2:
+    host: localhost
+    database: 1
+    password: 123
+    port: 6379
+    lettuce:
+      shutdown-timeout: 100ms
+      pool:
+        max-active: 8
+        max-idle: 16
+        min-idle: 8
+        max-wait: 100
 
+
+# netty 相关配置
+netty:
+  port: 8099
+  workers: 10

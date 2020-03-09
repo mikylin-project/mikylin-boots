@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class ContextService implements ApplicationContextAware {
 
-    private ApplicationContext context = null;
+    private static ApplicationContext context = null;
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
@@ -22,7 +22,7 @@ public class ContextService implements ApplicationContextAware {
             context = applicationContext;
     }
 
-    public ApplicationContext getContext() {
+    public static ApplicationContext getContext() {
         return context;
     }
 }
