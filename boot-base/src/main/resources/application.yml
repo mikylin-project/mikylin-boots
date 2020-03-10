@@ -37,7 +37,8 @@ spring:
     encoding: UTF-8
 
   # 配置使用的 application-xxx.yml
-  profiles.active: local
+  # profiles.active: local  # 单配置文件
+  profiles.include: local,local-url  # 多配置文件
 
 
 

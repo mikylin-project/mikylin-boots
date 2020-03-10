@@ -20,6 +20,5 @@ public class NettyRunner implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         server.start();
-        System.out.println("start");
     }
 }

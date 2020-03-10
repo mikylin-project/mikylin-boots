@@ -15,6 +15,7 @@ import javax.sql.DataSource;
 @MapperScan(basePackages = "cn.mikylin.boot.dao.shardingsphere",
         sqlSessionFactoryRef = "shardingSqlSessionFactory")
 @Configuration
+@ConditionalOnProperty(name = "names",prefix = "spring.shardingsphere.datasource")
 public class ShardingsphereDataSourceConfig {
 
     @Bean(name = "shardingSqlSessionFactory")

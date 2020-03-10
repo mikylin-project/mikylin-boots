@@ -1,62 +1,33 @@
-package cn.mikylin.boot.common;
+package cn.mikylin.boot.common.redis;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.data.redis.support.atomic.RedisAtomicLong;
 import org.springframework.stereotype.Component;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
- * redis template 封装
+ * 基于 String 类型的 k-v 的 redis template 封装
  *
  * @author mikylin
  * @date 20200309
  */
 @Component
-public class RedisService {
+public class StringRedisService extends RedisBaseService {
 
-    @Autowired @Qualifier("redisTemplate-1")
+    @Autowired
+    @Qualifier("redisTemplate-1")
     RedisTemplate<String,Object> redis;
 
-    /**
-     * 加锁，默认不需要 value，过期时间单位毫秒
-     */
-    public Boolean tryLock(String key,long expire) {
-        return setIfAbsent(key,"",expire,TimeUnit.MILLISECONDS);
+    private ValueOperations<String,Object> opsForValue() {
+        return redis.opsForValue();
     }
 
-    /**
-     * 限时自旋锁
-     */
-    public boolean lockLimitTime(String key,long expire,long out) {
-        boolean limitTime = out > 0L;
-        long beginTime = System.currentTimeMillis();
-        for(;!tryLock(key,expire);) {
-            if(limitTime && System.currentTimeMillis() - beginTime > out) {
-                return false;
-            }
-            Thread.yield();
-        }
-        return true;
-    }
-
-    /**
-     * 非限时自旋锁
-     */
-    public boolean lockLimitTime(String key,long expire) {
-        return lockLimitTime(key,expire,-1L);
-    }
-
-    /**
-     * 解锁
-     */
-    public Boolean unlock(String key) {
-        return delete(key);
+    @Override
+    protected RedisTemplate<String, Object> redis() {
+        return redis;
     }
 
     /**
@@ -66,8 +37,8 @@ public class RedisService {
      */
     public Boolean setIfAbsent(String key,Object value,long expire,TimeUnit unit) {
         return  expire <= 0L ?
-                redis.opsForValue().setIfAbsent(key,value) :
-                redis.opsForValue().setIfAbsent(key,value,expire,unit);
+                opsForValue().setIfAbsent(key,value) :
+                opsForValue().setIfAbsent(key,value,expire,unit);
     }
 
     public Boolean setIfAbsent(String key,Object value) {
@@ -79,8 +50,8 @@ public class RedisService {
      */
     public void set(String key,Object value,long expire,TimeUnit unit) {
         if(expire <= 0L)
-            redis.opsForValue().set(key,value);
-        redis.opsForValue().set(key,value,expire,unit);
+            opsForValue().set(key,value);
+        opsForValue().set(key,value,expire,unit);
     }
 
     public void set(String key, String value) {
@@ -95,8 +66,8 @@ public class RedisService {
      */
     public Boolean setIfPresent(String key,Object value,long expire,TimeUnit unit) {
         return  expire <= 0L ?
-                redis.opsForValue().setIfPresent(key,value) :
-                redis.opsForValue().setIfPresent(key,value,expire,unit);
+                opsForValue().setIfPresent(key,value) :
+                opsForValue().setIfPresent(key,value,expire,unit);
     }
 
     public Boolean setIfPresent(String key, String value) {
@@ -108,36 +79,21 @@ public class RedisService {
      * 根据 key 获取 value
      */
     public Object get(String key) {
-        return redis.opsForValue().get(key);
+        return opsForValue().get(key);
     }
 
     /**
      * 获取旧值，并替换成一个新值
      */
     public Object getAndSet(String key,Object value) {
-        return redis.opsForValue().getAndSet(key,value);
+        return opsForValue().getAndSet(key,value);
     }
 
-    /**
-     * 给 key 添加过期时间
-     */
-    public Boolean expire(String key,long expire,TimeUnit unit) {
-        return redis.expire(key,expire,unit);
+
+    public Integer append(String key,String other) {
+        return opsForValue().append(key,other);
     }
 
-    /**
-     * 删除 k-v
-     */
-    public boolean delete(String key) {
-        return redis.delete(key);
-    }
-
-    /**
-     * 判断一个 key 是否存在
-     */
-    public Boolean exists(String key) {
-        return redis.hasKey(key);
-    }
 
     /**
      * add and get
@@ -158,20 +114,5 @@ public class RedisService {
         return incrAndGet(key,- delta,expire,unit);
     }
 
-    /**
-     * 批量化获取 value
-     */
-    public Map<String,Object> batchGet(List<String> keys) {
 
-        if (keys == null || keys.isEmpty()) {
-            return new HashMap<>(1);
-        }
-
-        List<Object> values = redis.opsForValue().multiGet(keys);
-
-        HashMap<String,Object> resMap = new HashMap<>(keys.size());
-        for (int i = 0 ; i < values.size() ; i++)
-            resMap.put(keys.get(i), values.get(i));
-        return resMap;
-    }
 }

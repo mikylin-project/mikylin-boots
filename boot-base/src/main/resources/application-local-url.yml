@@ -1,0 +1,30 @@
+port:
+  servlet: 8080
+
+db:
+  master:
+    url: jdbc:mysql://aliyun-ecs:3306/test1?useSSL=false&characterEncoding=utf-8&rewriteBatchedStatements=true&treatTinyAsBoolean=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: root
+  slaver:
+    url: jdbc:mysql://aliyun-ecs:3306/test1?useSSL=false&characterEncoding=utf-8&rewriteBatchedStatements=true&treatTinyAsBoolean=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: root
+  shardingsphere:
+    url-1: jdbc:mysql://aliyun-ecs:3306/test1?useSSL=false&characterEncoding=utf-8&rewriteBatchedStatements=true&treatTinyAsBoolean=false&serverTimezone=Asia/Shanghai
+    username-1: root
+    password-1: root
+    url-2: jdbc:mysql://aliyun-ecs:3306/test2?useSSL=false&characterEncoding=utf-8&rewriteBatchedStatements=true&treatTinyAsBoolean=false&serverTimezone=Asia/Shanghai
+    username-2: root
+    password-2: root
+
+cache:
+  redis:
+    host-1: localhost
+    database-1: 0
+    password-1: 123
+    port-1: 6379
+    host-2: localhost
+    database-2: 1
+    password-2: 123
+    port-2: 6379

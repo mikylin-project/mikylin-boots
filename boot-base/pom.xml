@@ -105,11 +105,6 @@
         </dependency>
 
         <dependency>
-            <groupId>io.netty</groupId>
-            <artifactId>netty-all</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>cn.mikylin</groupId>
             <artifactId>boot-api</artifactId>
             <version>0.0.1</version>

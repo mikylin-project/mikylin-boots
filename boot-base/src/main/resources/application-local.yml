@@ -1,6 +1,6 @@
 server:
   # 端口
-  port: 8080
+  port: ${port.servlet}
   # http 协议头的大小
   max-http-header-size: 8KB
 
@@ -61,14 +61,14 @@ spring:
 
   datasource:
     # 主数据库
-    master-url: jdbc:mysql://aliyun-ecs:3306/test1?useSSL=false&characterEncoding=utf-8&rewriteBatchedStatements=true&treatTinyAsBoolean=false&serverTimezone=Asia/Shanghai
-    master-username: root
-    master-password: root
+    master-url: ${db.master.url}
+    master-username: ${db.master.username}
+    master-password: ${db.master.password}
 
     # 从数据库
-    slaver-url: jdbc:mysql://aliyun-ecs:3306/test2?useSSL=false&characterEncoding=utf-8&rewriteBatchedStatements=true&treatTinyAsBoolean=false&serverTimezone=Asia/Shanghai
-    slaver-username: root
-    slaver-password: root
+    slaver-url: ${db.slaver.url}
+    slaver-username: ${db.slaver.username}
+    slaver-password: ${db.slaver.username}
 
     # 数据库驱动
     driver-class-name: com.mysql.jdbc.Driver
@@ -105,10 +105,10 @@ spring:
         # sharding-jdbc 4.0.0-RC3 暂时只支持 mysql5 的版本
         # driver-class-name: com.mysql.cj.jdbc.Driver
         driver-class-name: com.mysql.jdbc.Driver
-        jdbc-url: jdbc:mysql://aliyun-ecs:3306/test1?useSSL=false&characterEncoding=utf-8&rewriteBatchedStatements=true&treatTinyAsBoolean=false&serverTimezone=Asia/Shanghai
+        jdbc-url: ${db.shardingsphere.url-1}
         # 用户名 / 密码
-        username: root
-        password: root
+        username: ${db.shardingsphere.username-1}
+        password: ${db.shardingsphere.password-1}
         # 超时时间，单位毫秒
         connection-timeout: 2000
         # 连接池线程空置之后的存续时间
@@ -123,9 +123,9 @@ spring:
       ds01:
         type: com.zaxxer.hikari.HikariDataSource
         driver-class-name: com.mysql.jdbc.Driver
-        jdbc-url: jdbc:mysql://aliyun-ecs:3306/test2?useSSL=false&characterEncoding=utf-8&rewriteBatchedStatements=true&treatTinyAsBoolean=false&serverTimezone=Asia/Shanghai
-        username: root
-        password: root
+        jdbc-url: ${db.shardingsphere.url-2}
+        username: ${db.shardingsphere.username-2}
+        password: ${db.shardingsphere.password-2}
         connection-timeout: 2000
         maxLifetime: 1800000
         1minimum-idle: 100
@@ -170,10 +170,10 @@ spring:
 # redis 相关配置
 redis:
   redis-1:
-    host: localhost
-    database: 0
-    password: 123
-    port: 6379
+    host: ${cache.redis.host-1}
+    database: ${cache.redis.database-1}
+    password: ${cache.redis.password-1}
+    port: ${cache.redis.port-1}
     lettuce:
       shutdown-timeout: 100ms
       pool:
@@ -182,10 +182,10 @@ redis:
         min-idle: 8
         max-wait: 100
   redis-2:
-    host: localhost
-    database: 1
-    password: 123
-    port: 6379
+    host: ${cache.redis.host-2}
+    database: ${cache.redis.database-2}
+    password: ${cache.redis.password-2}
+    port: ${cache.redis.port-2}
     lettuce:
       shutdown-timeout: 100ms
       pool:
@@ -193,9 +193,3 @@ redis:
         max-idle: 16
         min-idle: 8
         max-wait: 100
-
-
-# netty 相关配置
-netty:
-  port: 8099
-  workers: 10
