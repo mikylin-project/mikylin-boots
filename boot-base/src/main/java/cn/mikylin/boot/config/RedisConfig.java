@@ -13,6 +13,7 @@ import org.springframework.data.redis.connection.lettuce.LettuceClientConfigurat
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.connection.lettuce.LettucePoolingClientConfiguration;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
@@ -27,11 +28,24 @@ import java.time.Duration;
 @Configuration
 public class RedisConfig {
 
+    /**
+     * 均采用 string 方式获取 redis template
+     */
+    private static StringRedisTemplate srt(RedisConnectionFactory factory) {
+        StringRedisTemplate srt = new StringRedisTemplate();
+        srt.setConnectionFactory(factory);
+        return srt;
+    }
+
+    /**
+     * 使用自定义的方式获取 redis template，支持多种序列化手段
+     */
     private static RedisTemplate<String,Object> rt(RedisConnectionFactory factory) {
         RedisTemplate<String, Object> rt = new RedisTemplate<>();
         rt.setConnectionFactory(factory);
 
-        RedisSerializer<String> srs = new StringRedisSerializer();
+        // RedisSerializer<String> srs = new StringRedisSerializer();
+        RedisSerializer<String> srs = RedisSerializer.string(); // utf-8 编码的序列化实例对象
         // key 采用 String 的序列化方式
         rt.setKeySerializer(srs);
         // value 采用 String 的序列化方式
@@ -88,10 +102,10 @@ public class RedisConfig {
         }
 
         @Bean(name = "redisTemplate-1")
-        public RedisTemplate<String,Object> redisTemplateOne(
+        public StringRedisTemplate redisTemplateOne(
                 @Autowired @Qualifier("redisOneFactory")
                         RedisConnectionFactory factory) {
-            return rt(factory);
+            return srt(factory);
         }
     }
 

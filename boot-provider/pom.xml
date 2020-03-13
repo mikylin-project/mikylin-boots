@@ -4,7 +4,7 @@
     <parent>
         <artifactId>boot-parent</artifactId>
         <groupId>cn.mikylin.boot</groupId>
-        <version>0.0.1</version>
+        <version>0.0.2</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>boot-provider</artifactId>
@@ -16,14 +16,12 @@
         <dependency>
             <groupId>cn.mikylin</groupId>
             <artifactId>boot-api</artifactId>
-            <version>0.0.1</version>
         </dependency>
 
         <!-- spring kafka -->
         <dependency>
             <groupId>org.springframework.kafka</groupId>
             <artifactId>spring-kafka</artifactId>
-            <version>2.4.1.RELEASE</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.springframework</groupId>
@@ -37,13 +35,23 @@
         <dependency>
             <groupId>org.apache.dubbo</groupId>
             <artifactId>dubbo-spring-boot-starter</artifactId>
-            <version>2.7.5</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-starter</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+
+        <!-- zookeeper -->
+        <dependency>
+            <groupId>org.apache.curator</groupId>
+            <artifactId>curator-framework</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.curator</groupId>
+            <artifactId>curator-recipes</artifactId>
         </dependency>
 
         <!-- dubbo 接口限流器 sentinel -->
@@ -65,20 +73,6 @@
         <!--            <artifactId>sentinel-transport-netty-http</artifactId>-->
         <!--            <version>1.7.0</version>-->
         <!--        </dependency>-->
-
-        <!-- zookeeper -->
-        <dependency>
-            <groupId>org.apache.curator</groupId>
-            <artifactId>curator-framework</artifactId>
-            <version>4.2.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.curator</groupId>
-            <artifactId>curator-recipes</artifactId>
-            <version>4.2.0</version>
-        </dependency>
-
 
     </dependencies>
 

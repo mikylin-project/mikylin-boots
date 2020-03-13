@@ -1,15 +1,14 @@
 package cn.mikylin.boot.common.redis;
 
-import org.springframework.data.redis.core.RedisTemplate;
-
+import org.springframework.data.redis.core.StringRedisTemplate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-public abstract class RedisBaseService {
+public abstract class StringRedisBaseService {
 
-    protected abstract RedisTemplate<String,Object> redis();
+    protected abstract StringRedisTemplate redis();
 
     /**
      * 给 key 添加过期时间
@@ -36,14 +35,14 @@ public abstract class RedisBaseService {
     /**
      * 批量化获取 value
      */
-    public Map<String,Object> batchGet(List<String> keys) {
+    public Map<String,String> batchGet(List<String> keys) {
 
         if (keys == null || keys.isEmpty())
             return new HashMap<>(1);
 
-        HashMap<String,Object> resMap = new HashMap<>(keys.size());
+        Map<String,String> resMap = new HashMap<>(keys.size());
 
-        List<Object> values = redis().opsForValue().multiGet(keys);
+        List<String> values = redis().opsForValue().multiGet(keys);
 
         for (int i = 0 ; i < values.size() ; i++)
             resMap.put(keys.get(i), values.get(i));

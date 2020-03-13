@@ -2,7 +2,6 @@ package cn.mikylin.boot.common.redis;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -12,7 +11,7 @@ import java.util.concurrent.TimeUnit;
 public class RedisLockService {
 
     @Autowired
-    StringRedisService service;
+    CommonRedisService service;
 
 
     /**

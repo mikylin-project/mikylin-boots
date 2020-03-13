@@ -2,7 +2,7 @@ package cn.mikylin.boot.common.redis;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.data.redis.support.atomic.RedisAtomicLong;
 import org.springframework.stereotype.Component;
@@ -15,18 +15,18 @@ import java.util.concurrent.TimeUnit;
  * @date 20200309
  */
 @Component
-public class StringRedisService extends RedisBaseService {
+public class CommonRedisService extends StringRedisBaseService {
 
     @Autowired
     @Qualifier("redisTemplate-1")
-    RedisTemplate<String,Object> redis;
+    StringRedisTemplate redis;
 
-    private ValueOperations<String,Object> opsForValue() {
+    private ValueOperations<String,String> opsForValue() {
         return redis.opsForValue();
     }
 
     @Override
-    protected RedisTemplate<String, Object> redis() {
+    protected StringRedisTemplate redis() {
         return redis;
     }
 
@@ -35,20 +35,20 @@ public class StringRedisService extends RedisBaseService {
      * 如果不存在这个 key 就新增键值对，返回 true；
      * 如果存在这个 key 就不做任何操作，返回 false。
      */
-    public Boolean setIfAbsent(String key,Object value,long expire,TimeUnit unit) {
+    public Boolean setIfAbsent(String key,String value,long expire,TimeUnit unit) {
         return  expire <= 0L ?
                 opsForValue().setIfAbsent(key,value) :
                 opsForValue().setIfAbsent(key,value,expire,unit);
     }
 
-    public Boolean setIfAbsent(String key,Object value) {
+    public Boolean setIfAbsent(String key,String value) {
         return setIfAbsent(key,value,-1L,null);
     }
 
     /**
      * 插入一个 k-v。
      */
-    public void set(String key,Object value,long expire,TimeUnit unit) {
+    public void set(String key,String value,long expire,TimeUnit unit) {
         if(expire <= 0L)
             opsForValue().set(key,value);
         opsForValue().set(key,value,expire,unit);
@@ -64,7 +64,7 @@ public class StringRedisService extends RedisBaseService {
      * 如果存在这个 key 且 value 就是期望值，不做任何操作并返回 false；
      * 如果存在这个 key 且 value 不为期望值，做更新操作并返回 true。
      */
-    public Boolean setIfPresent(String key,Object value,long expire,TimeUnit unit) {
+    public Boolean setIfPresent(String key,String value,long expire,TimeUnit unit) {
         return  expire <= 0L ?
                 opsForValue().setIfPresent(key,value) :
                 opsForValue().setIfPresent(key,value,expire,unit);
@@ -85,7 +85,7 @@ public class StringRedisService extends RedisBaseService {
     /**
      * 获取旧值，并替换成一个新值
      */
-    public Object getAndSet(String key,Object value) {
+    public Object getAndSet(String key,String value) {
         return opsForValue().getAndSet(key,value);
     }
 

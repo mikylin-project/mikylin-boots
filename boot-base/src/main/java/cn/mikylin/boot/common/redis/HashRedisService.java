@@ -3,7 +3,7 @@ package cn.mikylin.boot.common.redis;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.redis.core.HashOperations;
-import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -18,11 +18,11 @@ import java.util.Map;
  * @date 20200310
  */
 @Component
-public class HashRedisService extends RedisBaseService {
+public class HashRedisService extends StringRedisBaseService {
 
     @Autowired
     @Qualifier("redisTemplate-1")
-    RedisTemplate<String,Object> redis;
+    StringRedisTemplate redis;
 
 
     private HashOperations<String,String,Object> opsForHash() {
@@ -30,7 +30,7 @@ public class HashRedisService extends RedisBaseService {
     }
 
     @Override
-    protected RedisTemplate<String, Object> redis() {
+    protected StringRedisTemplate redis() {
         return redis;
     }
 

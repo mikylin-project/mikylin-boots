@@ -71,6 +71,7 @@ public class DataSourceConfig {
             return new DataSourceTransactionManager(ds);
         }
 
+        @ConditionalOnProperty
         @Bean(name = "masterSqlSessionFactory")
         public SqlSessionFactory sf(@Qualifier("masterDataSource") DataSource ds) throws Exception {
             SqlSessionFactoryBean sf = new SqlSessionFactoryBean();

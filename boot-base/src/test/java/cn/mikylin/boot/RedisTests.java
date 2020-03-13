@@ -1,6 +1,6 @@
 package cn.mikylin.boot;
 
-import cn.mikylin.boot.common.redis.StringRedisService;
+import cn.mikylin.boot.common.redis.CommonRedisService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -9,7 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 public class RedisTests {
 
     @Autowired
-    StringRedisService stringRedis;
+    CommonRedisService stringRedis;
 
     @Test
     public void string() {
