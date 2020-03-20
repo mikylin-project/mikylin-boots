@@ -51,7 +51,7 @@ public class CommonRedisService extends StringRedisBaseService {
     public void set(String key,String value,long expire,TimeUnit unit) {
         if(expire <= 0L)
             opsForValue().set(key,value);
-        opsForValue().set(key,value,expire,unit);
+        else opsForValue().set(key,value,expire,unit);
     }
 
     public void set(String key, String value) {
@@ -65,7 +65,7 @@ public class CommonRedisService extends StringRedisBaseService {
      * 如果存在这个 key 且 value 不为期望值，做更新操作并返回 true。
      */
     public Boolean setIfPresent(String key,String value,long expire,TimeUnit unit) {
-        return  expire <= 0L ?
+        return expire <= 0L ?
                 opsForValue().setIfPresent(key,value) :
                 opsForValue().setIfPresent(key,value,expire,unit);
     }
