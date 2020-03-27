@@ -1,4 +1,4 @@
-package cn.mikylin.boot.common;
+package cn.mikylin.boot.common.spring;
 
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;

@@ -1,4 +1,4 @@
-package cn.mikylin.boot.common;
+package cn.mikylin.boot.common.spring;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
