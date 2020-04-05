@@ -169,11 +169,11 @@ spring:
 
 # redis 相关配置
 redis:
-  redis-1:
-    host: ${cache.redis.host-1}
-    database: ${cache.redis.database-1}
-    password: ${cache.redis.password-1}
-    port: ${cache.redis.port-1}
+  redis:
+    host: ${cache.redis.host}
+    database: ${cache.redis.database}
+    password: ${cache.redis.password}
+    port: ${cache.redis.port}
     lettuce:
       shutdown-timeout: 100ms
       pool:
@@ -181,6 +181,7 @@ redis:
         max-idle: 16
         min-idle: 8
         max-wait: 100
+
   redis-2:
     host: ${cache.redis.host-2}
     database: ${cache.redis.database-2}

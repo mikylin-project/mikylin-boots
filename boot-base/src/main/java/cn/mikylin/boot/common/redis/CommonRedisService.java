@@ -1,7 +1,6 @@
 package cn.mikylin.boot.common.redis;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.data.redis.support.atomic.RedisAtomicLong;
@@ -18,7 +17,6 @@ import java.util.concurrent.TimeUnit;
 public class CommonRedisService extends StringRedisBaseService {
 
     @Autowired
-    @Qualifier("redisTemplate-1")
     StringRedisTemplate redis;
 
     private ValueOperations<String,String> opsForValue() {

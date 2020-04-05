@@ -14,6 +14,7 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import javax.sql.DataSource;
 import java.sql.SQLException;
 
+@Configuration
 public class DataSourceConfig {
 
 
@@ -24,7 +25,7 @@ public class DataSourceConfig {
             sqlSessionFactoryRef = "masterSqlSessionFactory")
     @Configuration
     // 如果存在 spring.database.master-url 这部分配置文件就加载该配置项
-    @ConditionalOnProperty(name = "master-url",prefix = "spring.database")
+    @ConditionalOnProperty(name = "master-url",prefix = "spring.datasource")
     public class MasterDataSourceConfig {
 
         @Value("${spring.datasource.master-url}")
@@ -92,7 +93,7 @@ public class DataSourceConfig {
     @MapperScan(basePackages = "cn.mikylin.boot.dao.slaver",
             sqlSessionFactoryRef = "slaverSqlSessionFactory")
     @Configuration
-    @ConditionalOnProperty(name = "slaver-url",prefix = "spring.database")
+    @ConditionalOnProperty(name = "slaver-url",prefix = "spring.datasource")
     public class SlaverDataSourceConfig {
 
         @Value("${spring.datasource.slaver-url}")

@@ -1,5 +1,7 @@
 spring:
 
+  application.name: boot-base
+
   # 日期格式，解决日期传输到前端变成时间戳的问题
   jackson:
     time-zone: GMT+8
@@ -63,3 +65,9 @@ pagehelper:
   helper-dialect: mysql
 
 
+# prometheus 监控配置
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'

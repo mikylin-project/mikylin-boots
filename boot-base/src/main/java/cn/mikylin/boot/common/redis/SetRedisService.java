@@ -1,7 +1,6 @@
 package cn.mikylin.boot.common.redis;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.redis.core.SetOperations;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
@@ -19,7 +18,6 @@ import java.util.Set;
 public class SetRedisService extends StringRedisBaseService {
 
     @Autowired
-    @Qualifier("redisTemplate-1")
     StringRedisTemplate redis;
 
     private SetOperations<String,String> opsForSet() {

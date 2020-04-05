@@ -8,6 +8,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.data.redis.connection.*;
 import org.springframework.data.redis.connection.lettuce.LettuceClientConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
@@ -59,24 +60,24 @@ public class RedisConfig {
     }
 
     @Configuration
-    @ConditionalOnProperty(name = "host",prefix = "redis.redis-1")
+    @ConditionalOnProperty(name = "host",prefix = "redis.redis")
     public static class RedisOneConfig {
 
-        @Value("${redis.redis-1.host}")
+        @Value("${redis.redis.host}")
         private String host;
-        @Value("${redis.redis-1.port}")
+        @Value("${redis.redis.port}")
         private Integer port;
-        @Value("${redis.redis-1.password}")
+        @Value("${redis.redis.password}")
         private String password;
-        @Value("${redis.redis-1.database}")
+        @Value("${redis.redis.database}")
         private Integer database;
-        @Value("${redis.redis-1.lettuce.pool.max-active}")
+        @Value("${redis.redis.lettuce.pool.max-active}")
         private Integer maxActive;
-        @Value("${redis.redis-1.lettuce.pool.max-idle}")
+        @Value("${redis.redis.lettuce.pool.max-idle}")
         private Integer maxIdle;
-        @Value("${redis.redis-1.lettuce.pool.max-wait}")
+        @Value("${redis.redis.lettuce.pool.max-wait}")
         private Long maxWait;
-        @Value("${redis.redis-1.lettuce.pool.min-idle}")
+        @Value("${redis.redis.lettuce.pool.min-idle}")
         private Integer minIdle;
 
         @Bean(name = "redisOneFactory")
@@ -101,7 +102,8 @@ public class RedisConfig {
             return new LettuceConnectionFactory(redisConfig, clientConfig);
         }
 
-        @Bean(name = "redisTemplate-1")
+        @Bean(name = "redisTemplate")
+        @Primary
         public StringRedisTemplate redisTemplateOne(
                 @Autowired @Qualifier("redisOneFactory")
                         RedisConnectionFactory factory) {
