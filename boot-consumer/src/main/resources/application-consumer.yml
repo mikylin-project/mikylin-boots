@@ -42,7 +42,7 @@ dubbo:
   # 注册中心相关配置
   registry:
     # 配置 zookeeper 集群的地址
-    address: zookeeper://aliyun-ecs:2101
+    address: zookeeper://127.0.0.1:2101
     # 服务配置组别，不同组别下的服务不会相互调用，可以不做配置，即为不隔离
     group: SERVER_TEST
     # 注册中心超时时间，默认 5000，单位毫秒

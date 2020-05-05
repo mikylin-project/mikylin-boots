@@ -19,7 +19,8 @@ public class DubboUserConsumerService {
     /**
      * 注入服务的提供者，并配置 mock 类
      */
-    @Reference(version = "${dubbo.version}",mock = "cn.mikylin.boot.dubbo.DubboUserProviderServiceMock")
+    @Reference(version = "${dubbo.version}",
+            mock = "cn.mikylin.boot.dubbo.DubboUserProviderServiceMock")
     DubboUserProviderService service;
 
     public void getUser(Long userId) {
