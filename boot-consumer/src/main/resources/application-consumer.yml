@@ -21,7 +21,9 @@ spring:
       # 时间单位为毫秒，默认值 5000 (5s)
       auto-commit-interval: 1000
       # offset 消费指针
-      # earliest 代表从头开始消费，lastest 代表从新产生的部分开始消费
+      # earliest - 当各分区下有已提交的 offset 时，从提交的 offset 开始消费；无提交的 offset 时，从头开始消费
+      # latest - 当各分区下有已提交的 offset 时，从提交的 offset 开始消费；无提交的 offset 时，消费新产生的该分区下的数据
+      # none - topic 各分区都存在已提交的 offset 时，从 offset 后开始消费；只要有一个分区不存在已提交的 offset，则抛出异常
       auto-offset-reset: earliest
 
 
